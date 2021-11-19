@@ -97,7 +97,7 @@ func main() {
 			res.Message.Data = "pong"
 			res.Message.TimeStamp = time.Now()
 
-			jsonRes, err := json.Marshal(res)
+			jsonRes, err := json.Marshal(&res)
 			if err != nil {
 				fmt.Println("err", err)
 			}
