@@ -1,15 +1,13 @@
 package models
 
-import "time"
-
-type APIClient struct {
+type APIAgent struct {
 	Type    string `json:"type"`
-	Status	string `json:"status"`
+	Status  string `json:"status"`
 	Message ClientMessage
 }
 
 type ClientMessage struct {
-	ID        uint32    `json:"id"`
-	TimeStamp time.Time `json:"timestamp"`
-	Data      string    `json:"data"`
+	ID        uint32 `json:"id"`
+	TimeStamp string `json:"timestamp"`
+	Data      string `json:"data"`
 }

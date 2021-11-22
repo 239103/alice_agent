@@ -1,8 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"path"
 	"time"
@@ -78,7 +78,12 @@ func LoggerToFile() gin.HandlerFunc {
 }
 
 func actionEndpoint(c *gin.Context) {
-
+	var res models.APIAgent
+	res.Type = "action"
+	res.Status = "success"
+	res.Message.ID = uint32(time.Now().Unix())
+	res.Message.Data = ""
+	res.Message.TimeStamp = time.Now().Format("2006/1/2 15:04:05")
 }
 
 func main() {
@@ -90,20 +95,15 @@ func main() {
 	{
 		v1.GET("/ping", func(c *gin.Context) {
 			// Create response struct of APIClient type
-			var res models.APIClient
+			var res models.APIAgent
 			res.Type = "ping"
 			res.Status = "success"
 			res.Message.ID = uint32(time.Now().Unix())
 			res.Message.Data = "pong"
-			res.Message.TimeStamp = time.Now()
+			res.Message.TimeStamp = time.Now().Format("2006/1/2 15:04:05")
 
-			jsonRes, err := json.Marshal(&res)
-			if err != nil {
-				fmt.Println("err", err)
-			}
-
-			c.JSON(200, string(jsonRes))
-			Logger().Info(string(jsonRes))
+			c.JSON(http.StatusOK, res)
+			Logger().Info(res)
 		})
 
 		v1.POST("/action", actionEndpoint)
