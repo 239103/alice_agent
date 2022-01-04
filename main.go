@@ -1,15 +1,17 @@
 package main
 
 import (
-	_ "alice_agent/routers"
-
-	beego "github.com/beego/beego/v2/server/web"
+	"log"
+	"os"
 )
 
 func main() {
-	if beego.BConfig.RunMode == "dev" {
-		beego.BConfig.WebConfig.DirectoryIndex = true
-		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
+	f, err := os.OpenFile("log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
 	}
-	beego.Run()
+	defer f.Close()
+
+	log.SetOutput(f)
+	log.Println("This is a test log entry")
 }
